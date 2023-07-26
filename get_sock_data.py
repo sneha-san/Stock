@@ -1,4 +1,5 @@
 import pandas as pd
+import yfinance as yf
 
 def get_ticker(country):
     if country == 'India':
@@ -10,3 +11,8 @@ def get_ticker(country):
 
 def get_indian_stock(ticker,startDate,endDate):
     pass
+
+def get_usa_stock(tickerSymbol,start_date,end_date):
+    tickerData = yf.download(tickerSymbol, period='1d', start=start_date, end=end_date)  # Get ticker data
+    tickerData2 = yf.Ticker(tickerSymbol)
+    return tickerData,tickerData2

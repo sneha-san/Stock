@@ -10,35 +10,24 @@ import plotly.express as px
 from dotenv import load_dotenv
 
 import os
-from get_sock_data import get_ticker
+from get_sock_data import get_ticker, get_indian_stock, get_usa_stock
 load_dotenv(".env")
 
 ALPHA_VANTAGE_API_KEY = os.getenv("ALPHA_VANTAGE_KEY")
 # select country
-country = st.sidebar.radio('Country', ['India', 'USA'],horizontal=True)
+country = st.sidebar.radio('Country', ['USA', 'India'],horizontal=True)
 tickerSymbol = st.sidebar.selectbox("Select Stock", get_ticker(country))
 if country == 'India':
     pass
-else:
-    start_date = st.sidebar.date_input("Start date", datetime.date.today() - datetime.timedelta(days=30),
+
+start_date = st.sidebar.date_input("Start date", datetime.date.today() - datetime.timedelta(days=30),
                                        max_value=datetime.date.today())
-    end_date = st.sidebar.date_input("End date", datetime.date.today(), max_value=datetime.date.today())
-    tickerData = yf.download(tickerSymbol, period='1d', start=start_date, end=end_date)  # Get ticker data
-    tickerData2 = yf.Ticker(tickerSymbol)
+end_date = st.sidebar.date_input("End date", datetime.date.today(), max_value=datetime.date.today())
+tickerData, tickerData2 = get_usa_stock(tickerSymbol, start_date, end_date)
 
 show_ticker_info = st.sidebar.checkbox("Show Ticker Information")
 
-st.sidebar.subheader('Query parameters')
-start_date = st.sidebar.date_input("Start date", datetime.date.today() - datetime.timedelta(days=30), max_value=datetime.date.today())
-end_date = st.sidebar.date_input("End date", datetime.date.today(), max_value=datetime.date.today())
 
-
-# Retrieving tickers data
-# ticker_list = pd.read_csv('https://raw.githubusercontent.com/dataprofessor/s-and-p-500-companies/master/data/constituents_symbols.txt')
-# tickerSymbol = st.sidebar.selectbox('Stock ticker', ticker_list)  # Select ticker symbol
-tickerData = yf.download(tickerSymbol, period='1d', start=start_date, end=end_date)  # Get ticker data
-tickerData2 = yf.Ticker(tickerSymbol)
-#tickerDf = tickerData.history(period='1d', start=start_date, end=end_date)  # Get the historical prices for this ticker
 
 string_name = tickerData2.info['longName']
 st.header('**%s**' % string_name)

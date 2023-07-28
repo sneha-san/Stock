@@ -14,4 +14,4 @@ newsapi-python
 newsdataapi
 streamlit-extras
 prophet
-dist/NSEDownload-5.0.4.tar.gz
+NSEDownload/dist/NSEDownload-5.0.4.tar.gz

@@ -13,4 +13,4 @@ pandas_ta
 newsapi-python
 newsdataapi
 streamlit-extras
-bsedata
+prophet
